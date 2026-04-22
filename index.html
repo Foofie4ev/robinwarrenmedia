@@ -2138,6 +2138,7 @@
 
         const shards = [];
         const FOV = 800;
+        const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
         // --- Video pool for shard textures ---
         // Shared pool: 10 video elements, shards reference them by index
@@ -2228,8 +2229,6 @@
                 sizeMin, sizeMax, elongMin, elongMax, speedMin, speedMax, driftMin, driftMax, tumbleScale,
             };
         }
-
-        const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
         // Tier configs:       sizeMin, sizeMax, elongMin, elongMax, speedMin, speedMax, driftMin, driftMax, tumbleScale
         const tiers = isMobile ? [
