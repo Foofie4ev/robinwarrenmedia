@@ -3052,12 +3052,22 @@
                 }, { threshold: 0.5 });
                 io.observe(cell);
             } else {
-                // Desktop: hover to play, leave to pause
+                // Desktop: preload video, hover to play, leave to pause
+                video.preload = 'auto';
+                video.load();
                 cell.addEventListener('mouseenter', () => {
-                    video.play().catch(() => {});
+                    video.currentTime = 0;
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => {
+                            // Retry once on failure
+                            setTimeout(() => video.play().catch(() => {}), 100);
+                        });
+                    }
                 });
                 cell.addEventListener('mouseleave', () => {
                     video.pause();
+                    video.currentTime = 0;
                 });
             }
         });
